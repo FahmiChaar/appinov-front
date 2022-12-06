@@ -1,0 +1,8 @@
+<div class="errors-container" [@errorEnterLeaveAnimation] *ngIf="form && !form['valid'] && (form['controls'][controlName].dirty || submitAttempt)">
+  <div class="error-msg" *ngFor="let error of errors">
+    <span [@errorEnterLeaveAnimation] *ngIf="form['hasError'](error[0], controlName)">{{message || error[1]}}</span>
+  </div>
+</div>
+<div class="errors-container" [@errorEnterLeaveAnimation] *ngIf="!form && showError">
+  <div class="error-msg">{{message}}</div>
+</div>

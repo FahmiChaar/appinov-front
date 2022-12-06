@@ -1,0 +1,10 @@
+.errors-container {
+    color: var(--ion-color-danger) !important;
+    position: relative;
+    padding: 0;
+    font-size: 13px;
+    text-align: initial;
+    span {
+      display: block;
+    }
+  }

@@ -5,14 +5,24 @@
     {
       "files": ["*.ts"],
       "parserOptions": {
-        "project": ["tsconfig.json"],
+        "project": ["tsconfig.json", "e2e/tsconfig.json"],
         "createDefaultProgram": true
       },
       "extends": [
-        "plugin:@angular-eslint/recommended",
+        "plugin:@angular-eslint/ng-cli-compat",
+        "plugin:@angular-eslint/ng-cli-compat--formatting-add-on",
         "plugin:@angular-eslint/template/process-inline-templates"
       ],
       "rules": {
+        "semi": "off",
+        "@typescript-eslint/semi": "off",
+        "no-unexpected-multiline": "error",
+        "no-underscore-dangle": "off",
+        "@typescript-eslint/naming-convention": "off",
+        "guard-for-in": "off",
+        "max-len": "off",
+        "@angular-eslint/no-output-on-prefix": "off",
+        "@typescript-eslint/member-ordering": "off",
         "@angular-eslint/component-class-suffix": [
           "error",
           {
@@ -23,7 +33,7 @@
           "error",
           {
             "type": "element",
-            "prefix": "app",
+            // "prefix": "app",
             "style": "kebab-case"
           }
         ],
@@ -31,7 +41,7 @@
           "error",
           {
             "type": "attribute",
-            "prefix": "app",
+            // "prefix": "app",
             "style": "camelCase"
           }
         ]
