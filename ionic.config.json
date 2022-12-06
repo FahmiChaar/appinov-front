@@ -1,0 +1,7 @@
+{
+  "name": "appinov_test",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
