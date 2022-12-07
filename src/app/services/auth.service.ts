@@ -3,31 +3,37 @@ import { UiService } from './ui.service';
 import { StorageService } from './storage.service';
 import { AppConfigService } from './app-config.service';
 import { HttpHelperService } from './http-helper.service';
+import { PREFIXES } from '../Constants';
+import { NavController } from '@ionic/angular';
+
+export interface User {
+  name?: string;
+  email?: string;
+  password?: string;
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  public user: any = null;
+  public user: User = null;
   public isAuthenticated = false;
   public authToken: string;
   public API = this.appConfig.API;
-  deviceId: string
-  currentUserPrefix = 'currentUser'
-  tokenPrefix = 'token'
   constructor(
     private httpHelper: HttpHelperService,
     private appConfig: AppConfigService,
     public ui: UiService,
-    private storage: StorageService
+    private storage: StorageService,
+    private navCtrl: NavController
   ) {
     this.loadUserCredentials()
   }
 
   public loadUserCredentials() {
     return new Promise(async (resolve) => {
-      const token = await this.storage.get(this.tokenPrefix);
-      const currentUser = await this.storage.get(this.currentUserPrefix);
+      const token = await this.storage.get(PREFIXES.token);
+      const currentUser = await this.storage.get(PREFIXES.user);
       if (token && currentUser) {
         this.useCredentials(token, currentUser);
         resolve(currentUser)
@@ -37,13 +43,13 @@ export class AuthService {
   }
 
   storeUserCredentials(token, currentUser) {
-    this.storage.set(this.tokenPrefix, token);
-    this.storage.set(this.currentUserPrefix, currentUser);
+    this.storage.set(PREFIXES.token, token);
+    this.storage.set(PREFIXES.user, currentUser);
     this.useCredentials(token, currentUser);
   }
 
   storeUser(currentUser) {
-    this.storage.set(this.currentUserPrefix, currentUser);
+    this.storage.set(PREFIXES.user, currentUser);
     this.user = currentUser;
   }
 
@@ -51,13 +57,13 @@ export class AuthService {
     if (this.user) {
       return this.user;
     } else {
-      return await this.storage.get(this.currentUserPrefix);
+      return await this.storage.get(PREFIXES.user);
     }
   }
 
   setUser(user) {
     this.user = user;
-    this.storage.set(this.currentUserPrefix, user);
+    this.storage.set(PREFIXES.user, user);
   }
 
   useCredentials(token, currentUser) {
@@ -72,8 +78,8 @@ export class AuthService {
     return new Promise((resolve) => {
       this.authToken = undefined;
       this.isAuthenticated = false;
-      this.storage.remove(this.currentUserPrefix);
-      this.storage.remove(this.tokenPrefix);
+      this.storage.remove(PREFIXES.user);
+      this.storage.remove(PREFIXES.token);
       this.user = {};
       resolve(true);
     });
@@ -82,21 +88,45 @@ export class AuthService {
   login(user) {
     return new Promise(async (resolve, reject) => {
       await this.ui.loading();
-      this.httpHelper.request('post', '/auth/login', user).subscribe(resp => {
-        this.ui.unLoading();
-        console.log(resp)
-        // this.storeUserCredentials(resp.token, resp.user);
-        this.ui.fireSuccess('Welcome');
-        resolve(resp);
-      }, err => {
-        this.ui.fireError(err)
-        reject(err)
+      this.httpHelper.request('post', '/login', user).subscribe({
+        next: resp => {
+          this.ui.unLoading();
+          console.log(resp)
+          this.storeUserCredentials(resp.token, resp.user);
+          this.ui.fireSuccess('Welcome.');
+          resolve(resp);
+        },
+        error: err => {
+          console.log(err)
+          this.ui.fireError(err)
+          reject(err)
+        }
       })
     })
   }
 
-  logout() {
-    return this.destroyUserCredentials();
+  register(user) {
+    return new Promise(async (resolve, reject) => {
+      await this.ui.loading();
+      this.httpHelper.request('post', '/register', user).subscribe({
+        next: resp => {
+          this.ui.unLoading();
+          console.log(resp)
+          this.storeUserCredentials(resp.token, resp.user);
+          this.ui.fireSuccess('Welcome');
+          resolve(resp);
+        },
+        error: err => {
+          this.ui.fireError(err)
+          reject(err)
+        }
+      })
+    })
+  }
+
+  async logout() {
+    await this.destroyUserCredentials();
+    this.navCtrl.navigateRoot('login')
   }
 
 }

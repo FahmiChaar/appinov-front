@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 
@@ -8,6 +8,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { IonicStorageModule } from '@ionic/storage-angular';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import { StorageService } from './services/storage.service';
+
+/* eslint-disable */
+export function initializeStorageFactory(storage: StorageService) {
+  return ()=> storage.init();
+}
+/* eslint-disable */
 
 @NgModule({
   declarations: [AppComponent],
@@ -19,7 +26,10 @@ import { AppRoutingModule } from './app-routing.module';
     BrowserAnimationsModule,
     HttpClientModule,
   ],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+  providers: [
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    { provide: APP_INITIALIZER, useFactory: initializeStorageFactory, deps: [StorageService], multi: true }
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

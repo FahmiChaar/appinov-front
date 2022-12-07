@@ -1,27 +1,45 @@
-#container {
-  text-align: center;
-
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
+ion-content {
+  --padding-start: 30px;
+  --padding-end: 30px;
+  --padding-top: 30px;
 }
 
-#container strong {
-  font-size: 20px;
-  line-height: 26px;
+.header-container {
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  background: var(--ion-color-primary);
+  img {
+    width: 100px;
+  }
 }
 
-#container p {
-  font-size: 16px;
-  line-height: 22px;
-
-  color: #8c8c8c;
-
-  margin: 0;
+ion-title {
+  display: flex;
+  align-items: center;
+  img {
+    width: 100px;
+  }
 }
 
-#container a {
-  text-decoration: none;
+ngx-datatable {
+  border-radius: 5px;
+  ::ng-deep {
+    .empty-row {
+      text-align: center !important;
+      height: initial !important;
+    }
+  }
+}
+
+.table-container {
+  .table-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .title {
+      font-size: 25px;
+      font-weight: bold;
+    }
+  }
 }

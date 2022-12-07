@@ -29,8 +29,7 @@ export class LoginPage implements OnInit {
     this.submitAttempt = true
     if (this.loginForm.valid) {
       await this.auth.login(this.loginForm.value);
-      await this.navCtrl.navigateRoot('/home')
-      this.navCtrl.navigateForward('/home')
+      this.navCtrl.navigateRoot('/home')
     }
   }
 

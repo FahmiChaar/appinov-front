@@ -7,6 +7,7 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class StorageService {
   isReady = new BehaviorSubject(false)
+  appPrefix = 'tomanina';
   private _storage: Storage | null = null;
   constructor(
     private storage: Storage
@@ -20,15 +21,15 @@ export class StorageService {
   }
 
   public set(key: string, value: any) {
-    return this._storage?.set(key, value);
+    return this._storage?.set(`${this.appPrefix}-${key}`,value);
   }
 
   public async get(key) {
-    return await this._storage?.get(key);
+    return await this._storage?.get(`${this.appPrefix}-${key}`);
   }
 
   public async remove(key) {
-    return await this._storage?.remove(key);
+    return await this._storage?.remove(`${this.appPrefix}-${key}`);
   }
 
   public async clear() {

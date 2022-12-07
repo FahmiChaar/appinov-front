@@ -27,7 +27,7 @@ export class UiService {
         const alert = await this.alertCtrl.create({
           ...options,
           header:options.header,
-          message:message,
+          message,
           buttons: [
             {
               text: 'Oui',
@@ -41,12 +41,12 @@ export class UiService {
       })
   }
 
-  confirmation(options: AlertOptions, agreeBtn = 'popups.yes', disagreeBtn = 'popups.no') {
-    return new Promise(async (resolve, reject) => {
+  confirmation(options: AlertOptions, agreeBtn = 'Yes', disagreeBtn = 'No') {
+    return new Promise(async (resolve) => {
       const message = options.message.toString()
         const confirm = await this.alertCtrl.create({
           header: options.header,
-          message: message,
+          message,
           buttons: [
             {
               text: agreeBtn,
@@ -57,7 +57,7 @@ export class UiService {
             {
               text: disagreeBtn,
               handler: () => {
-                reject(false)
+                // reject(false)
               }
             }
           ],
@@ -131,12 +131,7 @@ export class UiService {
   fireError(err, duration = 2500) {
     this.unLoading();
     try {
-      let messages = '';
-      if (err.message) {
-        messages = err.message
-      } else {
-        messages = 'Internal server error'
-      }
+      const messages = err?.error?.message || 'Internal server error'
       this.toast({ message: messages, cssClass: 'toast-error', color: 'danger', duration });
     } catch (e) {
       const message = 'Internal server error'

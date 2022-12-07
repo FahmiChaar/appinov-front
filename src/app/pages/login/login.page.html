@@ -2,20 +2,22 @@
   <div class="page-content">
     <div class="login-form">
       <div class="logo-container">
-        <img src="assets/images/logo.jpg" alt="appinov">
+        <img src="assets/images/logo.png" alt="appinov">
       </div>
-      <form [formGroup]="loginForm">
+      <form [formGroup]="loginForm" (ngSubmit)="login()">
         <ion-item class="custom-input">
           <ion-icon name="mail" slot="start"></ion-icon>
           <ion-input type="email" formControlName="email" placeholder="Email"></ion-input>
         </ion-item>
-        <error-messages [form]="loginForm" controlName="email" [submitAttempt]="submitAttempt" message="Email obligatoire."></error-messages>
+        <error-messages [form]="loginForm" controlName="email" [submitAttempt]="submitAttempt" message="Email required."></error-messages>
         <ion-item class="custom-input">
           <ion-icon name="lock-closed" slot="start"></ion-icon>
-          <ion-input type="password" formControlName="password" placeholder="Mot de passe"></ion-input>
+          <ion-input type="password" formControlName="password" placeholder="Password"></ion-input>
         </ion-item>
-        <error-messages [form]="loginForm" controlName="password" [submitAttempt]="submitAttempt" message="Mot de passe obligatoire."></error-messages>
-        <ion-button type="submit" class="submit-btn" expand="block" mode="ios" shape="round" color="primary" (click)="login()">Connexion</ion-button>
+        <error-messages [form]="loginForm" controlName="password" [submitAttempt]="submitAttempt" message="Password required."></error-messages>
+        <button type="submit" id="form-enter-sumbit">Submit with enter button hack</button>
+        <ion-button type="submit" class="submit-btn" expand="block" color="primary">Connexion</ion-button>
+        <ion-button class="register-btn" fill="clear" expand="block" color="primary" routerLink="/register">You don't have an account? Register</ion-button>
       </form>
     </div>
   </div>

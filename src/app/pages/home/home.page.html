@@ -1,5 +1,42 @@
-<ion-content>
-  <div id="container">
-    <h1>Welcome Home</h1>
+<ion-header>
+  <ion-toolbar color="light">
+    <ion-title>
+      <img src="assets/images/logo.png" alt="">
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="auth.logout()">Logout</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <div class="table-container">
+    <div class="table-header">
+      <div class="title">Books</div>
+      <ion-button size="small" (click)="showCreateBookModal()">Add Book</ion-button>
+    </div>
+    <ngx-datatable 
+      class="material expandable"
+      [limit]="10" 
+      [rows]="dataStore.books"
+      [rowHeight]="50" 
+      [columns]="columns"
+      [columnMode]="'force'" 
+      [sortType]="sortType"
+      [headerHeight]="50"
+      [footerHeight]="50">
+      <ngx-datatable-column *ngFor="let col of columns" [name]="col.name"></ngx-datatable-column>
+      <ngx-datatable-column name="Actions" prop="name">
+        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+          <ion-button fill="clear" size="small" (click)="editBook(row)">
+            <ion-icon name="create" slot="icon-only"></ion-icon>
+          </ion-button>
+          <ion-button color="danger" fill="clear" size="small" (click)="deleteBook(row)">
+            <ion-icon name="trash" slot="icon-only"></ion-icon>
+          </ion-button>
+        </ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
   </div>
 </ion-content>

@@ -1,15 +1,3 @@
-/*
- * App Global CSS
- * ----------------------------------------------------------------------------
- * Put style rules here that you want to apply globally. These styles are for
- * the entire app and not just one component. Additionally, this file can be
- * used as an entry point to import other CSS/Sass files to be included in the
- * output CSS.
- * For more information on global stylesheets, visit the documentation:
- * https://ionicframework.com/docs/layout/global-stylesheets
- */
-
-/* Core CSS required for Ionic components to work properly */
 @import "~@ionic/angular/css/core.css";
 
 /* Basic CSS for apps built with Ionic */
@@ -24,3 +12,47 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
+@import './../node_modules/@swimlane/ngx-datatable/index.css';
+@import './../node_modules/@swimlane/ngx-datatable/themes/material.scss';
+@import './../node_modules/@swimlane/ngx-datatable/assets/icons.css';
+
+ion-button {
+    text-transform: unset;
+}
+
+ion-toast {
+    --max-width: 500px;
+}
+
+.form-enter-sumbit {
+    display: none;
+}
+
+.custom-modal {
+    --height: auto;
+    --backdrop-opacity: 0.32 !important;
+
+    ion-toolbar {
+        padding-top: 0 !important;
+    }
+
+    .ion-page {
+        position: relative;
+        contain: content;
+        max-height: 90vh;
+    }
+
+    &::part(content) {
+        width: 90vw;
+        max-width: 600px;
+        border-radius: 5px;
+    }
+
+    .modal-content {
+        overflow: auto;
+        padding: 16px;
+        // border-top: 1px solid rgba(255, 255, 255, 0.5);
+        border: none;
+    }
+}
