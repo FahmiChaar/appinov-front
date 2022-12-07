@@ -1,7 +1,7 @@
 # Appinov Test Front
 
 - You can find here the code for the fonr-end
-- Note: You can create a new user from the app
+- Note: You can create a new user from the app to login to pretected app section
 
 ## App functionalities
 - Registring new users
